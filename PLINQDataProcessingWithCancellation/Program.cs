@@ -7,6 +7,7 @@ namespace PLINQDataProcessingWithCancellation
 {
     class Program
     {
+        static CancellationTokenSource cancelToken = new CancellationTokenSource();
         static void Main(string[] args)
         {
             Console.WriteLine("Start any key to start processing");

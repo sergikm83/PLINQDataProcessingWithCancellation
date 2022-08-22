@@ -10,11 +10,21 @@ namespace PLINQDataProcessingWithCancellation
         static CancellationTokenSource cancelToken = new CancellationTokenSource();
         static void Main(string[] args)
         {
-            Console.WriteLine("Start any key to start processing");
-            Console.ReadKey();
+            do
+            {
+                Console.WriteLine("Start any key to start processing");
+                Console.ReadKey();
+                Console.WriteLine("Processing");
+                Task.Factory.StartNew(() => ProcessIntData());
 
-            Console.WriteLine("Processing");
-            Task.Factory.StartNew(() => ProcessIntData());
+                Console.Write("Enter Q to quit");
+                string answer = Console.ReadLine();
+                if (answer.Equals("Q",StringComparison.OrdinalIgnoreCase))
+                {
+                    cancelToken.Cancel();
+                    break;
+                }
+            } while (true);
             Console.ReadLine();
         }
 

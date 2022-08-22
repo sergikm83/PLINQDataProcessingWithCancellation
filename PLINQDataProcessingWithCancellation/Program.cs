@@ -24,12 +24,21 @@ namespace PLINQDataProcessingWithCancellation
             int[] source = Enumerable.Range(1, 150_000_000).ToArray();
             // Найти числа, для которых истинно условие num % 3 ==0,
             // и возвратить их в убывающем порядке.
-            int[] modThreeIsZero = (from num in source.AsParallel()
-                                    where num % 3 == 0
-                                    orderby num descending
-                                    select num).ToArray();
-            // Вывести количество найденных чисел.
-            Console.WriteLine($"Found {modThreeIsZero.Count()} numbers that match query!");
+            int[] modThreeIsZero = null;
+            try
+            {
+                modThreeIsZero = (from num in source.AsParallel().WithCancellation(cancelToken.Token)
+                                  where num % 3 == 0
+                                  orderby num descending
+                                  select num).ToArray();
+                Console.WriteLine();
+                // Вывести количество найденных чисел.
+                Console.WriteLine($"Found {modThreeIsZero.Count()} numbers that match query!");
+            }
+            catch (OperationCanceledException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

@@ -20,10 +20,10 @@ namespace PLINQDataProcessingWithCancellation
         static void ProcessIntData()
         {
             // Получить очень большой массив целых чисел.
-            int[] source = Enumerable.Range(1, 10_000_000).ToArray();
+            int[] source = Enumerable.Range(1, 150_000_000).ToArray();
             // Найти числа, для которых истинно условие num % 3 ==0,
             // и возвратить их в убывающем порядке.
-            int[] modThreeIsZero = (from num in source
+            int[] modThreeIsZero = (from num in source.AsParallel()
                                     where num % 3 == 0
                                     orderby num descending
                                     select num).ToArray();

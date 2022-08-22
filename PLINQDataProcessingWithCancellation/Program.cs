@@ -9,7 +9,12 @@ namespace PLINQDataProcessingWithCancellation
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Start any key to start processing");
+            Console.ReadKey();
+
+            Console.WriteLine("Processing");
+            Task.Factory.StartNew(() => ProcessIntData());
+            Console.ReadLine();
         }
 
         static void ProcessIntData()
